@@ -1,233 +1,298 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Management System</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <div class="app">
-      <aside class="sidebar">
-        <div class="brand">
-          <div class="brand-icon">S</div>
-          <div>
-            <h2>StudentPro</h2>
-            <p>Management System</p>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudentPro | Student Management System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">S</div>
+        <div>
+          <h2>StudentPro</h2>
+          <p>Management System</p>
         </div>
+      </div>
 
-        <p class="menu-label">MAIN MENU</p>
+      <p class="menu-label">MAIN MENU</p>
+      <nav>
+        <a href="#dashboard" class="nav-link active"><span>▦</span> Dashboard</a>
+        <a href="#students" class="nav-link"><span>♙</span> Students</a>
+        <a href="#student-form" class="nav-link"><span>＋</span> Add Student</a>
+        <a href="#attendance" class="nav-link"><span>✓</span> Attendance</a>
+        <a href="#reports" class="nav-link"><span>▥</span> Reports</a>
+      </nav>
 
-        <nav>
-          <a href="#dashboard" class="nav-link active">
-            <span>▦</span> Dashboard
-          </a>
-          <a href="#students" class="nav-link"> <span>♙</span> Students </a>
-          <a href="#student-form" class="nav-link">
-            <span>＋</span> Add Student
-          </a>
-        </nav>
-
-
-        <div class="sidebar-bottom">
-          <div class="profile-avatar">A</div>
-          <div>
-            <strong>Administrator</strong>
-            <p>System Manager</p>
-          </div>
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">A</div>
+        <div>
+          <strong>Administrator</strong>
+          <p>System Manager</p>
         </div>
-      </aside>
+      </div>
+    </aside>
 
-      <main class="main-content" id="dashboard">
-        <header class="topbar">
-          <div>
-            <h1>Dashboard</h1>
-            <p>Welcome back! Manage your students here.</p>
-          </div>
+    <main class="main-content" id="dashboard">
+      <header class="topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Welcome back! Manage your students here.</p>
+        </div>
+        <div class="topbar-actions">
           <div class="today" id="today"></div>
-        </header>
+          <button type="button" class="btn btn-light" id="themeToggle"
+            aria-label="Toggle dark mode" aria-pressed="false">
+            🌙 Dark Mode
+          </button>
+        </div>
+      </header>
 
-        <section class="stats-grid">
-          <article class="stat-card">
-            <div class="stat-icon blue">♙</div>
-            <p>Total Students</p>
-            <h2 id="totalStudents">0</h2>
-            <span>Registered students</span>
-          </article>
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-icon blue">♙</div>
+          <p>Total Students</p>
+          <h2 id="totalStudents">0</h2>
+          <span>Registered students</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon green">♂</div>
+          <p>Male Students</p>
+          <h2 id="maleStudents">0</h2>
+          <span>Male registrations</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon pink">♀</div>
+          <p>Female Students</p>
+          <h2 id="femaleStudents">0</h2>
+          <span>Female registrations</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon orange">▤</div>
+          <p>Courses</p>
+          <h2 id="totalCourses">0</h2>
+          <span>Courses represented</span>
+        </article>
+      </section>
 
-          <article class="stat-card">
-            <div class="stat-icon green">♂</div>
-            <p>Male Students</p>
-            <h2 id="maleStudents">0</h2>
-            <span>Male registrations</span>
-          </article>
+      <section class="panel" id="student-form">
+        <div class="section-heading">
+          <div>
+            <h2 id="formTitle">Add New Student</h2>
+            <p>Enter student details below</p>
+          </div>
+          <button type="button" class="btn btn-light" id="cancelEdit" hidden>
+            Cancel Edit
+          </button>
+        </div>
 
-          <article class="stat-card">
-            <div class="stat-icon pink">♀</div>
-            <p>Female Students</p>
-            <h2 id="femaleStudents">0</h2>
-            <span>Female registrations</span>
-          </article>
-
-          <article class="stat-card">
-            <div class="stat-icon orange">▤</div>
-            <p>Courses</p>
-            <h2 id="totalCourses">0</h2>
-            <span>Courses represented</span>
-          </article>
-        </section>
-
-        <section class="panel" id="student-form">
-          <div class="section-heading">
-            <div>
-              <h2 id="formTitle">Add New Student</h2>
-              <p>Enter student details below</p>
+        <form id="studentForm">
+          <input type="hidden" id="editId" />
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Full Name *</label>
+              <input id="name" type="text" placeholder="Enter full name"
+                maxlength="80" required />
             </div>
-            <button type="button" class="btn btn-light" id="cancelEdit" hidden>
-              Cancel Edit
+            <div class="field">
+              <label for="rollNo">Roll Number *</label>
+              <input id="rollNo" type="text" placeholder="e.g. BCA001"
+                maxlength="30" required />
+            </div>
+            <div class="field">
+              <label for="email">Email Address *</label>
+              <input id="email" type="email" placeholder="student@example.com"
+                maxlength="254" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number *</label>
+              <input id="phone" type="tel"
+                placeholder="10-digit mobile number" inputmode="numeric"
+                pattern="[6-9][0-9]{9}" minlength="10" maxlength="10"
+                title="Enter a valid 10-digit Indian mobile number" required />
+            </div>
+            <div class="field">
+              <label for="course">Course *</label>
+              <select id="course" required>
+                <option value="">Select course</option>
+                <option value="BCA">BCA</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="B.E">B.E</option>
+                <option value="BBA">BBA</option>
+                <option value="BSc">BSc</option>
+                <option value="BCom">BCom</option>
+                <option value="MCA">MCA</option>
+                <option value="MBA">MBA</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="gender">Gender *</label>
+              <select id="gender" required>
+                <option value="">Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="reset" class="btn btn-light">Clear Form</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              + Add Student
             </button>
           </div>
+        </form>
+      </section>
 
-          <form id="studentForm">
-            <input type="hidden" id="editId" />
-
-            <div class="form-grid">
-              <div class="field">
-                <label for="name">Full Name *</label>
-                <input
-                  id="name"
-                  type="text"
-                  placeholder="Enter full name"
-                  maxlength="80"
-                  required
-                />
-              </div>
-
-              <div class="field">
-                <label for="rollNo">Roll Number *</label>
-                <input
-                  id="rollNo"
-                  type="text"
-                  placeholder="e.g. BCA001"
-                  maxlength="30"
-                  required
-                />
-              </div>
-
-              <div class="field">
-                <label for="email">Email Address *</label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="student@example.com"
-                  maxlength="254"
-                  autocomplete="email"
-                  required
-                />
-              </div>
-
-              <div class="field">
-                <label for="phone">Phone Number *</label>
-                <input
-                  id="phone"
-                  type="tel"
-                  placeholder="Enter 10-digit mobile number"
-                  inputmode="numeric"
-                  pattern="[6-9][0-9]{9}"
-                  minlength="10"
-                  maxlength="10"
-                  title="Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9"
-                  required
-                />
-              </div>
-
-              <div class="field">
-                <label for="course">Course *</label>
-                <select id="course" required>
-                  <option value="">Select course</option>
-                  <option value="BCA">BCA</option>
-                  <option value="BCA">B.Tech</option>
-                  <option value="BCA">B.E</option>
-                  <option value="BBA">BBA</option>
-                  <option value="BSc">BSc</option>
-                  <option value="BCom">BCom</option>
-                  <option value="MCA">MCA</option>
-                  <option value="MBA">MBA</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="gender">Gender *</label>
-                <select id="gender" required>
-                  <option value="">Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-actions">
-              <button type="reset" class="btn btn-light">Clear Form</button>
-              <button type="submit" class="btn btn-primary" id="submitBtn">
-                + Add Student
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <section class="panel" id="students">
-          <div class="section-heading records-heading">
-            <div>
-              <h2>Student Records</h2>
-              <p>View and manage registered students</p>
-            </div>
-            <span class="record-count" id="recordCount">0 records</span>
+      <section class="panel" id="students">
+        <div class="section-heading records-heading">
+          <div>
+            <h2>Student Records</h2>
+            <p>Search, filter and manage registered students</p>
           </div>
+          <span class="record-count" id="recordCount">0 records</span>
+        </div>
 
-          <div class="toolbar">
-            <input
-              type="search"
-              id="searchInput"
-              placeholder="Search name, roll no, email..."
-            />
-            <select id="courseFilter" aria-label="Filter by course">
-              <option value="">All Courses</option>
-              <option value="BCA">BCA</option>
-              <option value="BBA">BBA</option>
-              <option value="BSc">BSc</option>
-              <option value="BCom">BCom</option>
-              <option value="MCA">MCA</option>
-              <option value="MBA">MBA</option>
-              <option value="Other">Other</option>
-            </select>
+        <div class="toolbar">
+          <input type="search" id="searchInput"
+            placeholder="Search name, roll no, email..." />
+          <select id="courseFilter" aria-label="Filter by course">
+            <option value="">All Courses</option>
+            <option value="BCA">BCA</option>
+            <option value="B.Tech">B.Tech</option>
+            <option value="B.E">B.E</option>
+            <option value="BBA">BBA</option>
+            <option value="BSc">BSc</option>
+            <option value="BCom">BCom</option>
+            <option value="MCA">MCA</option>
+            <option value="MBA">MBA</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="sortBy" aria-label="Sort students">
+            <option value="name-asc">Name: A–Z</option>
+            <option value="name-desc">Name: Z–A</option>
+            <option value="roll-asc">Roll Number</option>
+            <option value="course-asc">Course</option>
+          </select>
+          <select id="pageSize" aria-label="Students per page">
+            <option value="5">5 per page</option>
+            <option value="10" selected>10 per page</option>
+            <option value="20">20 per page</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Roll No.</th>
+                <th>Course</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentTable"></tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <span id="pageInfo">Page 1</span>
+          <div>
+            <button type="button" class="btn btn-light" id="prevPage">Previous</button>
+            <button type="button" class="btn btn-light" id="nextPage">Next</button>
           </div>
+        </div>
+        <p class="table-note" id="tableNote">
+          Student data is stored in this browser.
+        </p>
+      </section>
 
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Roll No.</th>
-                  <th>Course</th>
-                  <th>Gender</th>
-                  <th>Phone</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="studentTable"></tbody>
-            </table>
+      <section class="panel" id="attendance">
+        <div class="section-heading">
+          <div>
+            <h2>Attendance Management</h2>
+            <p>Record daily student attendance</p>
           </div>
-          <p class="table-note" id="tableNote">
-            Student data is stored in this browser.
-          </p>
-        </section>
+        </div>
 
-        <footer>StudentPro · Student Management System</footer>
-      </main>
-    </div>
-  </body>
+        <div class="toolbar attendance-toolbar">
+          <div class="field">
+            <label for="attendanceDate">Attendance Date</label>
+            <input type="date" id="attendanceDate" />
+          </div>
+          <button type="button" class="btn btn-light" id="loadAttendance">
+            Load Attendance
+          </button>
+        </div>
+
+        <div class="attendance-summary">
+          <article class="stat-card">
+            <p>Total</p>
+            <h2 id="attendanceTotal">0</h2>
+          </article>
+          <article class="stat-card">
+            <p>Present</p>
+            <h2 id="attendancePresent">0</h2>
+          </article>
+          <article class="stat-card">
+            <p>Absent</p>
+            <h2 id="attendanceAbsent">0</h2>
+          </article>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Roll No.</th>
+                <th>Course</th>
+                <th>Attendance</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTableBody"></tbody>
+          </table>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" id="saveAttendance">
+            Save Attendance
+          </button>
+        </div>
+      </section>
+
+      <section class="panel" id="reports">
+        <div class="section-heading">
+          <div>
+            <h2>Reports & Analytics</h2>
+            <p>Overview of student enrollment</p>
+          </div>
+        </div>
+        <div class="charts-grid">
+          <article class="chart-card">
+            <h3>Students by Course</h3>
+            <div id="courseChart" class="chart-area"
+              role="img" aria-label="Students grouped by course">
+              Charts will appear here when JavaScript is connected.
+            </div>
+          </article>
+          <article class="chart-card">
+            <h3>Attendance Overview</h3>
+            <div id="attendanceChart" class="chart-area"
+              role="img" aria-label="Attendance overview">
+              Attendance chart will appear here when records are available.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer>StudentPro · Student Management System</footer>
+    </main>
+  </div>
+</body>
 </html>
